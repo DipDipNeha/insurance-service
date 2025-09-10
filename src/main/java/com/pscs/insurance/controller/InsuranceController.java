@@ -11,11 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pscs.insurance.model.RequestData;
 import com.pscs.insurance.model.ResponseData;
+import com.pscs.insurance.services.InsuranceService;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/insurance")
 public class InsuranceController {
+
+	private final InsuranceService insuranceService;
+	
+	
+	
+	public InsuranceController(InsuranceService insuranceService) {
+		this.insuranceService = insuranceService;
+	}
 
 	@GetMapping("/echo")
 	public String echo() {
