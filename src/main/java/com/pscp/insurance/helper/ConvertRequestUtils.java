@@ -3,6 +3,7 @@
  */
 package com.pscp.insurance.helper;
 
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -17,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class ConvertRequestUtils {
 	private static ResourceBundle bundle = ResourceBundle.getBundle("sms");
+	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int MIN_LENGTH = 8;
 
 	public static <T> T convertValue(Object source, Class<T> targetType) {
 		try {
@@ -36,6 +39,21 @@ public class ConvertRequestUtils {
 			return null;
 		}
 	}
+	// generate Random password min 8 alphanumeric and return as string
+	
+	
+    public static String generatePassword() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < MIN_LENGTH; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+
+        return sb.toString();
+    }
+	
 
 	public static JSONObject convertRequestDataToJson(Object requestData) {
 		try {

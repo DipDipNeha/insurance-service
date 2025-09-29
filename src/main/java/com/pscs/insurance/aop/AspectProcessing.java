@@ -30,7 +30,7 @@ public class AspectProcessing {
 	@Autowired
 	private RequestLogService requestLogService;
 
-	@Pointcut("execution(* com.pscs.moneyx.controller.*.*(..))")
+	@Pointcut("execution(* com.pscs.insurance.controller.*.*(..))")
 	public void executeAspects() {
 	};
 

@@ -13,6 +13,9 @@ import com.pscs.insurance.model.RequestData;
 import com.pscs.insurance.model.ResponseData;
 import com.pscs.insurance.services.InsuranceService;
 
+/**
+ * @author Dipak Kumar
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/insurance")

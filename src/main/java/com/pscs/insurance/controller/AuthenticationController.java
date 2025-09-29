@@ -31,7 +31,7 @@ import com.pscs.insurance.security.JWTGenerator;
 
 
 /**
- * 
+ * Author Dipak Kumar
  */
 @CrossOrigin
 @RestController
