@@ -3,9 +3,6 @@
  */
 package com.pscs.insurance.controller;
 
-import java.util.Collections;
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pscp.insurance.helper.ConvertRequestUtils;
-import com.pscs.insurance.entity.Role;
 import com.pscs.insurance.entity.UserEntity;
 import com.pscs.insurance.model.RequestData;
 import com.pscs.insurance.model.ResponseData;
