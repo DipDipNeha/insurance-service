@@ -31,7 +31,15 @@ public class Customer {
 	private Date createdDate;
 	private Date updatedDate;
 	private String status; // ACTIVE, INACTIVE, SUSPENDED;
+	private String idType; // PASSPORT, DRIVER_LICENSE, NATIONAL_ID
 
+	public String getIdType() {
+		return idType;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
 	
 	
 	public String getStatus() {

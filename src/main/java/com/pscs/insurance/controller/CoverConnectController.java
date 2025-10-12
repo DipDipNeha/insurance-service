@@ -70,7 +70,21 @@ public class CoverConnectController {
     	        ResponseData registerResponse = coverConnectService.generateOtp(request);
     	                return new ResponseEntity<>(registerResponse, HttpStatus.OK);
     }
+   
+    //get customer type
+    @PostMapping("/getcustomertype")
+    public ResponseEntity<ResponseData> getCustomerType(@RequestBody RequestData request) {
+
+		ResponseData registerResponse = coverConnectService.getCustomerType(request);
+		return new ResponseEntity<>(registerResponse, HttpStatus.OK);
+    }
+    //get IdType
+    @PostMapping("/getidtype")
+    public ResponseEntity<ResponseData> getIdType(@RequestBody RequestData request) {
+    	        ResponseData registerResponse = coverConnectService.getIdType(request);
+    	                return new ResponseEntity<>(registerResponse, HttpStatus.OK);
     	                
+    }
     
     
 }

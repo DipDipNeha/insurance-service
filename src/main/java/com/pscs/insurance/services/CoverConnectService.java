@@ -4,8 +4,10 @@
 package com.pscs.insurance.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +65,7 @@ public class CoverConnectService {
 			partner.setCompanyName(requestJson.getString("companyName"));
 			partner.setLocation(requestJson.getString("location"));
 			partner.setContactName(requestJson.getString("contactName"));
-			partner.setContactEmail(requestJson.getString("partnerEmail"));
+			partner.setContactEmail(requestJson.getString("contactEmail"));
 			partner.setContactPhone(requestJson.getString("contactPhone"));
 			partner.setRegistrationId(requestJson.getString("registrationId"));
 			partner.setRemarks(requestJson.optString("remarks", ""));
@@ -73,7 +75,7 @@ public class CoverConnectService {
 			
 
 			CoverConnectLogin checkCustomerExist = coverConnectLoginRepo
-					.findByUserName(requestJson.getString("partnerEmail"));
+					.findByUserName(requestJson.getString("contactEmail"));
 			if (checkCustomerExist != null) {
 				response.setResponseCode("01");
 				response.setResponseMessage("Partner with this email already exists");
@@ -98,7 +100,7 @@ public class CoverConnectService {
 					
 					
 					CoverConnectLogin login = new CoverConnectLogin();
-					login.setUserName(requestJson.getString("partnerEmail"));
+					login.setUserName(requestJson.getString("contactEmail"));
 					login.setPassword(ConvertRequestUtils.generatePassword());
 					login.setPartnerCode(requestJson.getString("companyName"));
 					login.setCustType("PATNER");
@@ -258,6 +260,7 @@ public class CoverConnectService {
 			customer.setDob(requestJson.getString("dob"));
 			customer.setCompanyName(requestJson.optString("companyName", ""));
 			customer.setWalletId(requestJson.getString("walletId"));
+			customer.setIdType(requestJson.getString("idType"));
 			customer.setStatus("ACTIVE");
 			customer.setCreatedBy("SYSTEM");
 			customer.setCreatedDate(new Date());
@@ -266,7 +269,7 @@ public class CoverConnectService {
 			
 			//Validate if customer already exist
 			Customer checkCustomerExist = customerRepo.findByEmail(requestJson.getString("email"));
-			if (checkCustomerExist != null) {
+			if (checkCustomerExist == null) {
 				response.setResponseCode("01");
 				response.setResponseMessage("Customer with this email already exists");
 				return response;
@@ -475,6 +478,70 @@ public class CoverConnectService {
 		}
 		return response;
 	}
+
+
+	public ResponseData getCustomerType(RequestData request) {
+		ResponseData response = new ResponseData();
+		try {
+			logger.info("Request : " + request);
+			String jsonString = ConvertRequestUtils.getJsonString(request.getJbody());
+			JSONObject requestJson = new JSONObject(jsonString);
+			logger.info("Request Body: " + requestJson.toString());
+
+			JSONArray validTypes = new JSONArray();
+			// Hardcoded valid customer types
+			validTypes.put("INDIVIDUAL");
+			validTypes.put("CORPORATE");
+			
+            
+			
+				response.setResponseCode("00");
+				response.setResponseMessage("Customer type retrieved successfully");
+				response.setResponseData(validTypes.toList());
+			
+		} catch (Exception e) {
+			response.setResponseCode("01");
+			response.setResponseMessage("Failed to get customer type");
+			return response;
+		}
+		
+		return response;
+	}
+
+
+	public ResponseData getIdType(RequestData request) {
+		ResponseData response = new ResponseData();
+		try {
+			logger.info("Request : " + request);
+			String jsonString = ConvertRequestUtils.getJsonString(request.getJbody());
+			JSONObject requestJson = new JSONObject(jsonString);
+			logger.info("Request Body: " + requestJson.toString());
+
+			JSONArray validIdTypes = new JSONArray();
+			// Hardcoded valid ID types
+			validIdTypes.put("PASSPORT");
+			validIdTypes.put("DRIVER_LICENSE");
+			validIdTypes.put("NATIONAL_ID");
+			validIdTypes.put("VOTER_ID");
+			validIdTypes.put("SSNIT_ID");
+			validIdTypes.put("TAX_ID");
+			validIdTypes.put("NIN");
+			validIdTypes.put("BVN");
+			validIdTypes.put("GHANA_CARD");
+
+			response.setResponseCode("00");
+			response.setResponseMessage("ID types retrieved successfully");
+			response.setResponseData(validIdTypes.toList());
+
+		} catch (Exception e) {
+			response.setResponseCode("01");
+			response.setResponseMessage("Failed to get ID types");
+			return response;
+		}
+		return response;
+	}
+	
+	
 
 
 }
