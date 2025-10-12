@@ -1,7 +1,9 @@
 package com.pscs.insurance.controller;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,7 @@ import com.pscs.insurance.services.CoverConnectService;
 /**
  * @author Dipak Kumar
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/coverconnect")
 public class CoverConnectController {
@@ -30,24 +33,44 @@ public class CoverConnectController {
 	}
     
     
-	@PostMapping("/registerpartner")
-    public ResponseEntity<ResponseData> onboard(@RequestBody RequestData request) {
+	@PostMapping("/partnerregister")
+    public ResponseEntity<ResponseData> partner(@RequestBody RequestData request) {
     	
 		ResponseData registerResponse = coverConnectService.registerPartner(request);
     	
         return new ResponseEntity<>(registerResponse,HttpStatus.CREATED);
     }
-	@PostMapping("/registerlistener")
-  public ResponseEntity<ResponseData> registerListener(@RequestBody RequestData request) {
+	@PostMapping("/insurerregister")
+  public ResponseEntity<ResponseData> insurer(@RequestBody RequestData request) {
 
-		ResponseData registerResponse = coverConnectService.registerListener(request);
+		ResponseData registerResponse = coverConnectService.registerInsurer(request);
 
 		return new ResponseEntity<>(registerResponse, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/customerregister")
+	public ResponseEntity<ResponseData> onboardCustomer(@RequestBody RequestData request) {
+		ResponseData registerResponse = coverConnectService.onboardCustomer(request);
+
+		return new ResponseEntity<>(registerResponse, HttpStatus.CREATED);
+	}
+	
+	
     @PostMapping("/login")
 	public ResponseEntity<ResponseData> login(@RequestBody RequestData request) {
     	
     	        ResponseData registerResponse = coverConnectService.login(request);
 		return new ResponseEntity<>(registerResponse, HttpStatus.OK);
 	}
+    
+    //generate otp
+    @PostMapping("/generateotp")
+    public ResponseEntity<ResponseData> generateOtp(@RequestBody RequestData request) {
+    	
+    	        ResponseData registerResponse = coverConnectService.generateOtp(request);
+    	                return new ResponseEntity<>(registerResponse, HttpStatus.OK);
+    }
+    	                
+    
+    
 }

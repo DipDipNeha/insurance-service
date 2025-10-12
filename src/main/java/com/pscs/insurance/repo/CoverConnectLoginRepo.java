@@ -11,5 +11,6 @@ public interface CoverConnectLoginRepo extends JpaRepository<CoverConnectLogin, 
 	CoverConnectLogin findByUserNameAndPassword(String username, String password);
 
 	CoverConnectLogin findByUserName(String string);
+	CoverConnectLogin findByUserNameAndCustType(String string,String custType);
 
 }
