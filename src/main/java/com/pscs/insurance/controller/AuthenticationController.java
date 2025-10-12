@@ -64,25 +64,25 @@ public class AuthenticationController {
 	public ResponseEntity<ResponseData> generateToken(@RequestBody RequestData requestBody) {
 		ResponseData responseData = new ResponseData();
 		UserEntity entity = new UserEntity();
-		
-		UserEntity userEntity = ConvertRequestUtils.convertValue(requestBody.getJbody(), UserEntity.class);
-		if (userRepo.existsByUsername(userEntity.getUsername())) {
-			responseData.setResponseCode("01");
-			responseData.setResponseMessage("User Already Registered!");
-			return new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
-		}
-
-		entity.setUsername(userEntity.getUsername());
-		entity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-		Optional<Role> roleList = roleRepo.findByName("USER");
-		Role role = null;
-		if (roleList.isPresent()) {
-			role = roleList.get();
-		}
-		entity.setRole(Collections.singletonList(role));
-		userRepo.save(entity);
-		responseData.setResponseCode("00");
-		responseData.setResponseMessage("User Registered Successfully!");
+//		
+//		UserEntity userEntity = ConvertRequestUtils.convertValue(requestBody.getJbody(), UserEntity.class);
+//		if (userRepo.existsByUsername(userEntity.getUsername())) {
+//			responseData.setResponseCode("01");
+//			responseData.setResponseMessage("User Already Registered!");
+//			return new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+//		}
+//
+//		entity.setUsername(userEntity.getUsername());
+//		entity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+//		Optional<Role> roleList = roleRepo.findByName("USER");
+//		Role role = null;
+//		if (roleList.isPresent()) {
+//			role = roleList.get();
+//		}
+//		entity.setRole(Collections.singletonList(role));
+//		userRepo.save(entity);
+		responseData.setResponseCode("01");
+		responseData.setResponseMessage("User Registration is disabled!");
 		return new ResponseEntity<>(responseData, HttpStatus.OK);
 	}
 
