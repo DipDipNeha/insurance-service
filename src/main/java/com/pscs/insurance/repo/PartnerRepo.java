@@ -14,6 +14,6 @@ import com.pscs.insurance.entity.Partner;
 @Repository
 public interface PartnerRepo extends JpaRepository<Partner,Long> {
 
-	Partner findByPartnerCodeAndPartnerName(String partnerCode, String partnerName);
+//	Partner findByPartnerCodeAndPartner(String partnerCode, String partnerName);
 
 }
