@@ -101,7 +101,7 @@ public class CoverConnectService {
 					
 					CoverConnectLogin login = new CoverConnectLogin();
 					login.setUserName(requestJson.getString("contactEmail"));
-					login.setPassword(ConvertRequestUtils.generatePassword());
+					login.setPassword(requestJson.getString("password"));
 					login.setPartnerCode(requestJson.getString("companyName"));
 					login.setCustType("PATNER");
 					login.setCustId(save.getId() + "");
@@ -147,8 +147,33 @@ public class CoverConnectService {
 				response.setResponseMessage("Invalid partner credentials");
 				return response;
 			} else {
+				
+				if(byUsernameAndPassword.getCustType().equals("PATNER")) {
+					Partner partner = partnerRepo.findById(Long.parseLong(byUsernameAndPassword.getCustId()))
+							.orElse(null);
+					if (partner != null) {
+						response.setResponseData(partner);
+					}
+				}else if(byUsernameAndPassword.getCustType().equals("INSURER")) {
+                    Insurer insurer = insuranceCompanyRepo.findById(Long.parseLong(byUsernameAndPassword.getCustId()))
+                            .orElse(null);
+                    if (insurer != null) {
+                        response.setResponseData(insurer);
+                    }
+				}
+                    else if(byUsernameAndPassword.getCustType().equals("CUSTOMER")) {
+                        Customer customer = customerRepo.findById(Long.parseLong(byUsernameAndPassword.getCustId()))
+                                .orElse(null);
+                        if (customer != null) {
+                            response.setResponseData(customer);
+                        }
+                    }
+                    
+				
+				
 				response.setResponseCode("00");
 				response.setResponseMessage("Partner login successful");
+				response.setResponseData(byUsernameAndPassword);
 			}
 		} catch (Exception e) {
 			response.setResponseCode("01");
@@ -201,7 +226,7 @@ public class CoverConnectService {
 			} else {
 				response.setResponseCode("00");
 				response.setResponseMessage("Insurance company registered successfully");
-				CoverConnectLogin login = new CoverConnectLogin();
+				
 				
 //				validate if login already exist
 				CoverConnectLogin checkLoginExist = coverConnectLoginRepo
@@ -211,16 +236,17 @@ public class CoverConnectService {
 					response.setResponseMessage("Insurer login with this email already exists");
 					return response;
 				}
-				
+				CoverConnectLogin login = new CoverConnectLogin();
 				
 				login.setUserName(requestJson.getString("contactEmail"));
-				login.setPassword(ConvertRequestUtils.generatePassword());
+				login.setPassword(requestJson.getString("password"));
 				login.setPartnerCode(requestJson.getString("companyName"));
 				login.setCustType("INSURER");
 				login.setCustId(save.getId() + "");
 				login.setStatus("ACTIVE");
 				login.setCreatedBy("SYSTEM");
 				login.setCreatedDate(new Date().toString());
+				
 				CoverConnectLogin saveLogin = coverConnectLoginRepo.save(login);
 				if (saveLogin == null) {
 					response.setResponseCode("01");
@@ -299,7 +325,7 @@ public class CoverConnectService {
 				
 				CoverConnectLogin login = new CoverConnectLogin();
 				login.setUserName(requestJson.getString("email"));
-				login.setPassword(ConvertRequestUtils.generatePassword());
+				login.setPassword(requestJson.getString("password"));
 				login.setPartnerCode(requestJson.getString("name"));
 				login.setCustType("CUSTOMER");
 				login.setCustId(save.getId() + "");
